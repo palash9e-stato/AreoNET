@@ -96,14 +96,17 @@ export const CrisisMarkers = () => {
 
     return (
         <group rotation={[0, 0, 23.5 * Math.PI / 180]}>
-            {incidents.map((incident) => (
-                <Marker
-                    key={incident.id}
-                    position={latLonToVector3(incident.lat, incident.lon, 1.01)}
-                    type={incident.type}
-                    label={incident.label}
-                />
-            ))}
+            {incidents.map((incident, index) => {
+                const markerKey = incident.id || `${incident.lat}_${incident.lon}_${incident.type}_${index}`;
+                return (
+                    <Marker
+                        key={markerKey}
+                        position={latLonToVector3(incident.lat, incident.lon, 1.01)}
+                        type={incident.type}
+                        label={incident.label}
+                    />
+                )
+            })}
         </group>
     )
 }

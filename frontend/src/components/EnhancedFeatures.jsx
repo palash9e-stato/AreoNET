@@ -38,7 +38,7 @@ const EnhancedFeatures = () => {
             description: 'Multi-factor validation to reduce false alarms and maintain public trust.',
             color: 'crisis-cyan',
             bgColor: 'bg-crisis-cyan/10',
-            link: '/verification',
+            link: '/analytics',
             tag: 'MODULE 04'
         },
         {
@@ -56,7 +56,7 @@ const EnhancedFeatures = () => {
             description: 'Location-based emergency notifications with multi-channel delivery.',
             color: 'warning-orange',
             bgColor: 'bg-warning-orange/10',
-            link: '/alerts',
+            link: '/coordination',
             tag: 'MODULE 06'
         }
     ];

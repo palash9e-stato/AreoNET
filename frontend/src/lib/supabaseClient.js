@@ -17,8 +17,10 @@ if (supabaseAnonKey && !isLikelySupabaseJwt) {
     console.warn("Supabase key format looks invalid (expected anon/service JWT starting with 'eyJ'). Running in demo mode.")
 }
 
-if (!supabaseUrl || !supabaseAnonKey || (supabaseAnonKey && !isLikelySupabaseJwt)) {
-    console.error("CRITICAL: Missing Supabase Environment Variables. Check your .env file.");
+const hasSupabaseConfig = Boolean(supabaseUrl && supabaseAnonKey && isLikelySupabaseJwt);
+
+if (!hasSupabaseConfig) {
+    console.warn("Supabase credentials are missing or invalid. Running with demo/mock Supabase client instead.");
 }
 
 // Mock Client for Demo/Development without Keys
@@ -177,10 +179,10 @@ const mockSupabase = {
     }
 };
 
-export const supabase = (supabaseUrl && isLikelySupabaseJwt)
+export const supabase = hasSupabaseConfig
     ? createClient(supabaseUrl, supabaseAnonKey)
     : mockSupabase;
 
-if (!supabaseUrl || !supabaseAnonKey || (supabaseAnonKey && !isLikelySupabaseJwt)) {
+if (!hasSupabaseConfig) {
     console.warn("⚠️  Running with MOCK Supabase Client (Demo Mode)");
 }

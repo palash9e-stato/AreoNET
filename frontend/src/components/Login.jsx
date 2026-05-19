@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { Shield, Zap, Lock, Globe, Activity, ArrowRight } from 'lucide-react';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
@@ -17,12 +19,18 @@ const Login = () => {
         setError(null);
         try {
             if (isLogin) {
-                await signIn(email, password);
+                const result = await signIn(email, password);
+                if (result?.user) {
+                    navigate('/intelligence');
+                }
             } else {
                 if (!fullName.trim()) {
                     throw new Error("Full Name is required for registration.");
                 }
-                await signUp(email, password, fullName);
+                const result = await signUp(email, password, fullName);
+                if (result?.user) {
+                    navigate('/intelligence');
+                }
             }
         } catch (error) {
             setError(error.message);

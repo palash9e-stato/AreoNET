@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Element, scroller } from 'react-scroll';
+import { useNavigate } from 'react-router-dom';
 import HeroSection from './HeroSection';
 import CardSwap, { Card } from './CardSwap';
 import Galaxy from './Galaxy';
@@ -12,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from '../context/LocationContext';
 
 const LandingPage = ({ onSystemInitialize }) => {
+    const navigate = useNavigate();
     const { hasLocation, isLoading, requestLocation, error } = useLocation();
     const [showLocationPrompt, setShowLocationPrompt] = useState(false);
 
@@ -52,7 +54,10 @@ const LandingPage = ({ onSystemInitialize }) => {
         // Trigger system online state
         if (onSystemInitialize) onSystemInitialize();
 
-        // Scroll to capabilities
+        // Navigate to login so user can access protected dashboards
+        navigate('/login');
+
+        // Scroll to capabilities only if still on landing
         scroller.scrollTo('capabilities', {
             smooth: true,
             duration: 800,
@@ -60,7 +65,7 @@ const LandingPage = ({ onSystemInitialize }) => {
     };
 
     return (
-        <div className="w-full relative z-10 scroll-smooth pointer-events-none text-white">
+        <div className="w-full relative z-10 scroll-smooth pointer-events-auto text-white">
 
             {/* HERO SECTION */}
             <div className="h-screen w-full relative flex flex-col justify-center px-2 sm:px-4 lg:px-0 pointer-events-none">
@@ -378,7 +383,7 @@ const LandingPage = ({ onSystemInitialize }) => {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
-                    className="fixed bottom-6 right-6 z-50 max-w-sm"
+                    className="fixed bottom-6 right-6 z-50 max-w-sm pointer-events-auto"
                 >
                     <div className="bg-gradient-to-r from-blue-900/90 to-purple-900/90 backdrop-blur-xl border border-blue-500/50 rounded-xl p-6 shadow-2xl">
                         <div className="flex items-start gap-4">

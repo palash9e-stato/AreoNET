@@ -109,7 +109,7 @@ const ProtectedRoute = ({ children, adminOnly = false, userOnly = false }) => {
 };
 
 const MainApp = () => {
-  const { user, loading, signOut } = useAuth();
+  const { user, profile, loading, signOut } = useAuth();
   const [rotation, setRotation] = useState(0);
   const [isSystemOnline, setIsSystemOnline] = useState(false);
   const [bootFlash, setBootFlash] = useState(false);
@@ -259,7 +259,22 @@ const MainApp = () => {
               <div className="absolute inset-0 pointer-events-none z-10 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-40" />
             </div>
           } />
-          <Route path="/login" element={user ? <Navigate to={localStorage.getItem('chaukas_last_route') || '/landing'} /> : <Login />} />
+          <Route
+            path="/login"
+            element={
+              user ? (
+                <Navigate
+                  to={
+                    profile?.role === 'admin'
+                      ? '/admin'
+                      : localStorage.getItem('chaukas_last_route') || '/intelligence'
+                  }
+                />
+              ) : (
+                <Login />
+              )
+            }
+          />
 
           {/* Protected */}
           <Route path="/intelligence" element={<ProtectedRoute><CrisisDashboard /></ProtectedRoute>} />
